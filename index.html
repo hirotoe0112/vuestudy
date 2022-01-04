@@ -6,6 +6,18 @@
     <meta name="viewport" content="initial-scale=1.0">
     <title>sample HP</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <style>
+        .classA{
+            color: red;
+        }
+        .classB{
+            font-size: 2em;
+        }
+        .classC{
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -44,6 +56,14 @@
         <input v-model="pass">
         <button @click="login">ログイン</button>
         <div>{{ message }}</div>
+    </div>
+    <div id="app-9">
+        your name:<input v-model="name">
+        <input v-model="content">
+        <div>{{message}}</div>
+    </div>
+    <div id="app-10" v-bind:class="classObject">
+        {{message}}
     </div>
 </body>
 </html>
@@ -122,6 +142,41 @@
                     this.message='NG';
                 }
             }
+        }
+    })
+
+    var app9 = new Vue({
+        el:'#app-9',
+        data:{
+            name:"default name",
+            content:"",
+            message:""
+        },
+        watch:{
+            content:function(newcontent, oldcontent){
+                this.message=this.name + 'さんが入力しています';
+                this.debouncedGetContent();
+            }
+        },
+        created:function(){
+            this.debouncedGetContent = _.debounce(this.getContent, 500);
+        },
+        methods:{
+            getContent:function(){
+                this.message="";
+            }
+        }
+    })
+
+    var app10 = new Vue({
+        el:'#app-10',
+        data:{
+            classObject:{
+                'classA':true,
+                'classB':false,
+                'classC':true
+            },
+            message:"messagedesu"
         }
     })
 </script>
