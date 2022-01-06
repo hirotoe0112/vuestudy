@@ -7,6 +7,8 @@
     <title>sample HP</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
     <style>
         .classA{
             color: red;
@@ -17,9 +19,16 @@
         .classC{
             font-weight: bold;
         }
+        .border{
+            border:1px solid #dddddd;
+        }
     </style>
 </head>
 <body>
+    <div id="blockeditor">
+        <div id="editor" class="border"></div>
+        <button v-on:click="save">save</button>
+    </div>
     <div id="app">
         {{ message }}
     </div>
@@ -68,6 +77,44 @@
 </body>
 </html>
 <script>
+    const editor = new EditorJS({
+        holder:'editor',
+        tools:{
+            header:Header
+        }
+    });
+    var ed = new Vue({
+        el:'#blockeditor',
+        methods:{
+            save:async function(){
+                console.log(await editor.save());
+            }
+        }
+    })
+    //var ed = new Vue({
+    //    el:'#editor',
+    //    data:{
+    //        editor:undefined
+    //    },
+    //    methods:{
+    //        init: async function(){
+    //            this.editor = new EditorJS({
+    //                holder:'editor',
+    //                tools:{
+    //                    header:Header
+    //                }
+    //            });
+    //        }
+    //    },
+    //    mounted(){
+    //        console.log('mounted');
+    //        this.init();
+    //    },
+    //    beforeUnmount:function(){
+    //        clearInterval(this.interval_handler);
+    //    }
+    //})
+
     var app = new Vue({
         el:'#app',
         data:{
